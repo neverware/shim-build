@@ -11,4 +11,8 @@ build-no-cache:
 copy:
 	sudo docker run -v ${PWD}:/host:z ${TAG} cp -r /build/install /host
 
-.PHONY: build build-no-cache copy
+# Print details of the public certificate
+cert-info:
+	openssl x509 -inform der -in neverware.cer -noout -text
+
+.PHONY: build build-no-cache cert-info copy
