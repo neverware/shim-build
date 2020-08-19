@@ -4,11 +4,16 @@ RUN dnf install -y \
     gcc \
     git \
     gnu-efi-devel \
-    make
+    make \
+    patch
 
-# Clone shim, check out version 15
-RUN git clone --branch 15 https://github.com/rhboot/shim.git /build/shim
+# Clone shim, check out tag shim-15.1
+RUN git clone --branch shim-15.1 https://github.com/rhboot/shim.git /build/shim
 WORKDIR /build/shim
+
+# Apply a patch to fix compilation
+ADD build-fix.patch .
+RUN patch -p1 -i build-fix.patch
 
 # Add our public certificate
 ADD neverware.cer .
