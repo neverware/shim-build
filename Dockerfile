@@ -1,4 +1,4 @@
-FROM fedora:28
+FROM fedora:33
 
 RUN dnf install -y \
     gcc \
@@ -7,13 +7,10 @@ RUN dnf install -y \
     make \
     patch
 
-# Clone shim, check out tag shim-15.1
-RUN git clone --branch shim-15.1 https://github.com/rhboot/shim.git /build/shim
+# Clone shim, check out tag 15.4, and init submodules
+RUN git clone --branch 15.4 https://github.com/rhboot/shim.git /build/shim
 WORKDIR /build/shim
-
-# Apply a patch to fix compilation
-ADD build-fix.patch .
-RUN patch -p1 -i build-fix.patch
+RUN git submodule update --init
 
 # Add our public certificate
 ADD neverware.cer .
