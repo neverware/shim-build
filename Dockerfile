@@ -15,6 +15,9 @@ RUN git submodule update --init
 # Add our public certificate
 ADD neverware.cer .
 
+# Add our SBAT data
+ADD sbat.csv data/sbat.csv
+
 # Create build directories
 RUN mkdir build-x64 build-ia32
 

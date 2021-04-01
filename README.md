@@ -19,3 +19,7 @@ Copy the shim builds from the container to the host:
 View details of the public certificate:
 
     make cert-info
+
+View SBAT section of the shim binaries:
+
+    make dump-sbat

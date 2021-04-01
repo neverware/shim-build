@@ -15,4 +15,8 @@ copy:
 cert-info:
 	openssl x509 -inform der -in neverware.cer -noout -text
 
-.PHONY: build build-no-cache cert-info copy
+# Dump ".sbat" section of the builds
+dump-sbat:
+	objdump -j .sbat -s install/*
+
+.PHONY: build build-no-cache cert-info copy dump-sbat
