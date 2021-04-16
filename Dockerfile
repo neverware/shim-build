@@ -1,16 +1,20 @@
 FROM fedora:33
 
 RUN dnf install -y \
+    bzip2 \
     gcc \
     git \
     gnu-efi-devel \
     make \
-    patch
+    patch \
+    wget
 
-# Clone shim, check out tag 15.4, and init submodules
-RUN git clone --branch 15.4 https://github.com/rhboot/shim.git /build/shim
+# pnardini: We need to build shim 15.4 from a tarball now.  Download and extract it.
+RUN mkdir -p /build/shim
 WORKDIR /build/shim
-RUN git submodule update --init
+RUN wget https://github.com/rhboot/shim/releases/download/15.4/shim-15.4.tar.bz2
+RUN tar -jxvpf shim-15.4.tar.bz2 && rm shim-15.4.tar.bz2
+WORKDIR /build/shim/shim-15.4
 
 # Add our public certificate
 ADD neverware.cer .
