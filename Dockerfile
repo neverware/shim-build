@@ -9,12 +9,35 @@ RUN dnf install -y \
     patch \
     wget
 
-# pnardini: We need to build shim 15.4 from a tarball now.  Download and extract it.
+# pnardini: We need to build shim 15.4 from a tarball now.
+# Download and extract it.
 RUN mkdir -p /build/shim
 WORKDIR /build/shim
 RUN wget https://github.com/rhboot/shim/releases/download/15.4/shim-15.4.tar.bz2
 RUN tar -jxvpf shim-15.4.tar.bz2 && rm shim-15.4.tar.bz2
 WORKDIR /build/shim/shim-15.4
+
+# Add patches for critical shim 15.4 regressions.
+# See https://github.com/rhboot/shim-review/issues/165
+#
+# Note:  We are not pulling in https://github.com/rhboot/shim/pull/366.
+# We do not need to support ARM at this time.
+
+# https://github.com/rhboot/shim/pull/364
+ADD shim_15.4_8b59591_364.patch .
+RUN patch -p1 -i shim_15.4_8b59591_364.patch
+
+# https://github.com/rhboot/shim/pull/362
+ADD shim_15.4_975c2fe_362.patch .
+RUN patch -p1 -i shim_15.4_975c2fe_362.patch
+
+# https://github.com/rhboot/shim/pull/357
+ADD shim_15.4_1bea91b_357.patch .
+RUN patch -p1 -i shim_15.4_1bea91b_357.patch
+
+# https://github.com/rhboot/shim/pull/361
+ADD shim_15.4_33ca950_361.patch .
+RUN patch -p1 -i shim_15.4_33ca950_361.patch
 
 # Add our public certificate
 ADD neverware.cer .
