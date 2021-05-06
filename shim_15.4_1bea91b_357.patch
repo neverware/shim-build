@@ -1,0 +1,12 @@
+diff --git a/elf_ia32_efi.lds b/elf_ia32_efi.lds
+index 742e0a47a..497a3a152 100644
+--- a/elf_ia32_efi.lds
++++ b/elf_ia32_efi.lds
+@@ -15,6 +15,7 @@ SECTIONS
+    *(.gnu.linkonce.t.*)
+    _etext = .;
+   }
++  . = ALIGN(4096);
+   .reloc :
+   {
+    *(.reloc)
